@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Cafflora Coffee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js" defer></script>
+    <script src="../js/firebase-config.js" defer></script>
+    <script src="../js/app.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+  </head>
+  <body data-page="admin-dashboard">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <span class="brand-mark"></span>
+          <div>
+            <strong>Cafflora</strong><br />
+            <small>Admin</small>
+          </div>
+        </div>
+        <nav class="admin-nav">
+          <a class="active" href="./index.html"><i class="fa-solid fa-house"></i> Overview</a>
+          <a href="./orders.html"><i class="fa-solid fa-clipboard-list"></i> Orders</a>
+          <a href="./menu.html"><i class="fa-solid fa-book-open"></i> Menu</a>
+          <a href="./customers.html"><i class="fa-solid fa-user-group"></i> Customers</a>
+          <a href="./tables.html"><i class="fa-solid fa-chair"></i> Tables</a>
+          <a href="./analytics.html"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+          <a href="../index.html"><i class="fa-solid fa-store"></i> Frontend</a>
+          <a href="#" data-admin-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+      </aside>
+
+      <main class="admin-content">
+        <div class="admin-toolbar">
+          <div>
+            <span class="kicker">Overview</span>
+            <h1 style="font-size: clamp(2.2rem, 3vw, 3rem);">Café performance</h1>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <small>Today's Orders</small>
+            <div class="value" data-metric="orders">0</div>
+          </div>
+          <div class="metric-card">
+            <small>Today's Revenue</small>
+            <div class="value" data-metric="revenue">₹0</div>
+          </div>
+          <div class="metric-card">
+            <small>Pending Orders</small>
+            <div class="value" data-metric="pending">0</div>
+          </div>
+          <div class="metric-card">
+            <small>Completed Orders</small>
+            <div class="value" data-metric="completed">0</div>
+          </div>
+          <div class="metric-card">
+            <small>Active Customers</small>
+            <div class="value" data-metric="customers">0</div>
+          </div>
+        </div>
+
+        <div class="section" style="padding-top: 30px;">
+          <div class="table-panel reveal">
+            <div class="admin-toolbar" style="padding: 18px 20px 0;">
+              <h3>Recent Orders</h3>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Order ID</th>
+                  <th>Item</th>
+                  <th>Customer</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-orders"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

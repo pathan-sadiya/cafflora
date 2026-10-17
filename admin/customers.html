@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers | Cafflora Coffee Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js" defer></script>
+    <script src="../js/firebase-config.js" defer></script>
+    <script src="../js/app.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+  </head>
+  <body data-page="admin-customers">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <span class="brand-mark"></span>
+          <div>
+            <strong>Cafflora</strong><br />
+            <small>Admin</small>
+          </div>
+        </div>
+        <nav class="admin-nav">
+          <a href="./index.html"><i class="fa-solid fa-house"></i> Overview</a>
+          <a href="./orders.html"><i class="fa-solid fa-clipboard-list"></i> Orders</a>
+          <a href="./menu.html"><i class="fa-solid fa-book-open"></i> Menu</a>
+          <a class="active" href="./customers.html"><i class="fa-solid fa-user-group"></i> Customers</a>
+          <a href="./tables.html"><i class="fa-solid fa-chair"></i> Tables</a>
+          <a href="./analytics.html"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+          <a href="../index.html"><i class="fa-solid fa-store"></i> Frontend</a>
+          <a href="#" data-admin-logout><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+      </aside>
+      <main class="admin-content">
+        <div class="admin-toolbar">
+          <div>
+            <span class="kicker">Customers</span>
+            <h1 style="font-size: clamp(2.2rem, 3vw, 3rem);">Customer roster</h1>
+          </div>
+        </div>
+        <div class="table-panel reveal">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Total Orders</th>
+                <th>Total Spending</th>
+                <th>Last Order</th>
+              </tr>
+            </thead>
+            <tbody id="customers-body"></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
