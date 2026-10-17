@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Get in touch with the Cafflora Coffee team or plan a visit to our café in Parbhani."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body data-page="contact">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html" class="active">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Now</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner reveal">
+          <span class="kicker">Contact</span>
+          <h1>We’d love to hear from you.</h1>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="contact-grid" style="grid-template-columns: 0.9fr 1.1fr">
+          <div class="contact-info">
+            <div class="info-tile">
+              <div class="icon-box">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div>
+                <strong>Location</strong>
+                <p>Basmat Road, Parbhani, Maharashtra</p>
+              </div>
+            </div>
+            <div class="info-tile">
+              <div class="icon-box"><i class="fa-solid fa-clock"></i></div>
+              <div>
+                <strong>Opening Hours</strong>
+                <p>Monday – Sunday<br />08:00 AM – 11:00 PM</p>
+              </div>
+            </div>
+            <div class="info-tile">
+              <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
+              <div>
+                <strong>Phone</strong>
+                <p><a href="tel:+442079462901">1234567890</a></p>
+              </div>
+            </div>
+            <div class="info-tile">
+              <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+              <div>
+                <strong>Email</strong>
+                <p>
+                  <a href="mailto:cafe@caffloracoffee.com"
+                    >cafe@caffloracoffee.com</a
+                  >
+                </p>
+              </div>
+            </div>
+            <div
+              class="map-placeholder"
+              aria-label="Cafe location placeholder"
+            ></div>
+          </div>
+
+          <div class="summary-box">
+            <h3 style="font-size: 2rem">Let’s talk coffee.</h3>
+            <form class="contact-form" action="#" method="post">
+              <div class="form-field">
+                <label for="name">Name</label>
+                <input
+                  id="name"
+                  class="input"
+                  type="text"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="form-field">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  class="input"
+                  type="email"
+                  placeholder="Enter your email address"
+                />
+              </div>
+              <div class="form-field">
+                <label for="message">Message</label>
+                <textarea
+                  id="message"
+                  class="textarea form-note"
+                  placeholder="Tell us what’s on your mind"
+                ></textarea>
+              </div>
+              <button class="primary-btn" type="submit">Send your message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

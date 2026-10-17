@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track Order | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Follow your Cafflora Coffee order and see its latest progress."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script src="./js/orders.js" defer></script>
+  </head>
+  <body data-page="track-order">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Again</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner reveal">
+          <span class="kicker">Tracking</span>
+          <h1>Your order, at a glance.</h1>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="tracking-card">
+          <div id="tracking-summary"></div>
+          <div
+            class="timeline"
+            id="tracking-status"
+            aria-label="Order tracking timeline"
+          ></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

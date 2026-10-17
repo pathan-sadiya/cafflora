@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cafflora Coffee | Thoughtful Coffee, Welcoming Moments</title>
+    <meta
+      name="description"
+      content="Discover thoughtfully prepared coffee, café favourites and a welcoming place to slow down at Cafflora Coffee. Visit us or order for home delivery."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/starter-products.js" defer></script>
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body data-page="home">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html" aria-label="Cafflora Coffee home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <strong>Cafflora</strong>
+            <small>Coffee</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html" class="active">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-button" type="button" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" hidden>0</span>
+          </a>
+          <a class="primary-btn" href="./menu.html?mode=delivery">Order Now</a>
+          <button
+            class="icon-button mobile-toggle"
+            type="button"
+            aria-label="Open menu"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-panel" aria-label="Mobile menu">
+        <nav class="nav-links">
+          <a href="./index.html" class="active">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+          <a href="./login.html">Account</a>
+          <a href="./cart.html">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content">
+          <div class="hero-copy reveal">
+            <span class="kicker" data-home-kicker>Your neighbourhood coffee house</span>
+            <h1 data-home-title>Make room for a better coffee moment.</h1>
+            <p data-home-subtitle>
+              Thoughtfully prepared coffee, inviting café favourites, and a
+              little pause in the pace of your day. Find your moment at Cafflora.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-btn" href="./menu.html?mode=delivery"
+                >Order for Delivery</a
+              >
+              <a class="secondary-btn" href="./menu.html">Explore Menu</a>
+            </div>
+            <div class="hero-meta">
+              <span class="pill"
+                ><i class="fa-solid fa-seedling"></i> Freshly roasted</span
+              >
+              <span class="pill"
+                ><i class="fa-solid fa-mug-hot"></i> Dine-in & delivery</span
+              >
+            </div>
+          </div>
+
+          <div class="hero-card reveal">
+            <div class="mini-image" aria-label="Signature coffee cup"></div>
+            <div class="card-row">
+              <div>
+                  <small>A house favourite</small>
+                <h3 style="font-size: 2.2rem; margin-top: 4px">
+                  Cafflora Reserve
+                </h3>
+              </div>
+              <div class="rating-row" aria-label="Rated 4.9 out of 5">
+                <i class="fa-solid fa-star"></i>
+                <strong>4.9</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="section-header">
+          <div>
+            <span class="kicker">Ordering</span>
+            <h2>Your coffee, your kind of moment</h2>
+          </div>
+        </div>
+
+        <div class="ordering-grid">
+          <article class="order-option home reveal">
+            <span class="kicker">A little café comfort, delivered</span>
+            <h3>Enjoy Cafflora at home</h3>
+            <p>
+              Settle in with your favourite coffee and café bites, delivered to your door.
+            </p>
+            <a class="primary-btn" href="./menu.html?mode=delivery"
+              >Browse delivery menu</a
+            >
+          </article>
+
+          <article class="order-option cafe reveal">
+            <span class="kicker">Take a seat, we’ll take it from here</span>
+            <h3>Make it a café moment</h3>
+            <p>
+              Choose your table and explore the menu at your own pace. Your next favourite is waiting.
+            </p>
+            <a class="primary-btn" href="./dine-in.html">Order at your table</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="section-header">
+          <div>
+            <span class="kicker">Why Cafflora</span>
+            <h2>Good coffee, made with care</h2>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-seedling"></i></div>
+            <h3>Thoughtfully chosen coffee</h3>
+            <p>
+              We choose coffees for their character, balance, and the pleasure they bring to every cup.
+            </p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-wheat-awn"></i></div>
+            <h3>Freshly prepared</h3>
+            <p>
+              Each order is prepared with attention, so every sip and bite feels just right.
+            </p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-mug-hot"></i></div>
+            <h3>Warm hospitality</h3>
+            <p>
+              Whether you join us in the café or order from home, we make you feel welcome.
+            </p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+            <h3>Easy to enjoy</h3>
+            <p>
+              Choose dine-in or delivery and place your order in just a few simple steps.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section collection-section reveal">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="kicker">Favourites</span>
+              <h2>Find your new favourite</h2>
+            </div>
+            <a class="secondary-btn" href="./menu.html">View Full Menu</a>
+          </div>
+
+          <div class="menu-preview-grid" data-home-featured></div>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="promo-block">
+          <div class="promo-visual" aria-label="Cafflora brewing process"></div>
+          <div class="promo-content">
+            <span class="kicker">Our approach</span>
+            <h2>A good cup deserves a little time.</h2>
+            <p>
+              We believe the best café moments come from care in the details:
+              considered coffee, inviting flavours, and hospitality that lets
+              you settle in and enjoy the moment.
+            </p>
+            <div class="hero-meta" style="margin-top: 24px">
+              <span class="pill"
+                ><i class="fa-solid fa-circle-check"></i> Fresh
+                ingredients</span
+              >
+              <span class="pill"
+                ><i class="fa-solid fa-circle-check"></i> Premium quality</span
+              >
+            </div>
+            <div class="hero-actions" style="margin-top: 24px">
+              <a class="primary-btn" href="./about.html">Our Story</a>
+              <a class="secondary-btn" href="./menu.html">Explore Menu</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="section" style="padding-top: 0">
+      <div
+        class="container"
+        style="border-top: 1px solid var(--line); padding-top: 36px"
+      >
+        <div
+          class="feature-grid"
+          style="
+            grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+            align-items: start;
+          "
+        >
+          <div>
+            <a
+              class="brand"
+              href="./index.html"
+              aria-label="Cafflora Coffee home"
+            >
+              <span class="brand-mark" aria-hidden="true"></span>
+              <span class="brand-text">
+                <strong>Cafflora</strong>
+                <small>Coffee</small>
+              </span>
+            </a>
+            <p style="margin-top: 18px; max-width: 320px">
+              Thoughtful coffee and welcoming café moments, made to be enjoyed at your own pace.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <p><a href="./menu.html">Menu</a></p>
+            <p><a href="./about.html">About</a></p>
+            <p><a href="./contact.html">Contact</a></p>
+          </div>
+          <div>
+            <h4>Visit</h4>
+            <p>Basmat Road</p>
+            <p>Parbhani, Maharashtra</p>
+            <p>Open daily</p>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <p><a href="tel:1234567890">1234567890</a></p>
+            <p>
+              <a href="mailto:cafe@caffloracoffee.com"
+                >cafe@caffloracoffee.com</a
+              >
+            </p>
+            <p>@caffloracoffee</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Your Cafflora Coffee order details and next steps."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", async () => {
+        await appReady;
+        let confirmation = {};
+        try {
+          confirmation = JSON.parse(
+            localStorage.getItem("arabica_last_confirmation") || "{}",
+          );
+        } catch (error) {
+          console.error(error);
+        }
+        const info = document.getElementById("confirmation-info");
+        if (!info) return;
+        if (!confirmation.id) {
+          info.innerHTML =
+            '<div class="summary-box"><h2>No recent order to show.</h2><p>Once you place an order, its details will appear here.</p><a class="primary-btn" href="./menu.html">Explore the menu</a></div>';
+          return;
+        }
+        info.innerHTML = `
+          <div class="summary-box">
+            <span class="kicker">Order Confirmed</span>
+            <h2>Thank you for choosing Cafflora Coffee.</h2>
+            <p><strong>Order ID:</strong> ${escapeHTML(confirmation.id)}</p>
+            <p><strong>Order Type:</strong> ${escapeHTML(confirmation.orderType || "Home Delivery")}</p>
+            <p><strong>Customer:</strong> ${escapeHTML(confirmation.customerName || "Guest Customer")}</p>
+            ${confirmation.tableNumber ? `<p><strong>Table Number:</strong> ${escapeHTML(confirmation.tableNumber)}</p>` : ""}
+            <p><strong>Payment:</strong> ${escapeHTML(confirmation.paymentMethod || "Cash on Delivery")}</p>
+            <p><strong>Total:</strong> ${formatCurrency(Number(confirmation.total || 0))}</p>
+            <div class="summary-actions" style="margin-top: 18px;">
+              <a class="primary-btn" href="./track-order.html">Follow your order</a>
+              <a class="secondary-btn" href="./menu.html">Explore more favourites</a>
+            </div>
+          </div>
+        `;
+      });
+    </script>
+  </head>
+  <body data-page="confirmation">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Again</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-shell">
+      <div
+        id="confirmation-info"
+        class="reveal"
+        style="width: min(600px, calc(100% - 20px))"
+      ></div>
+    </main>
+  </body>
+</html>

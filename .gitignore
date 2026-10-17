@@ -1,0 +1,10 @@
+# Never commit Firebase service-account credentials or local secrets
+*service-account*.json
+*-firebase-adminsdk-*.json
+.env
+.env.*
+
+# Dependencies and local tooling
+functions/node_modules/
+node_modules/
+.firebase/

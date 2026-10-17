@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dine-In Ordering | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Choose a table and explore the Cafflora Coffee menu at your own pace."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", async () => {
+        await appReady;
+        const form = document.getElementById("table-form");
+        const input = document.getElementById("table-number");
+        const renderTables = () => {
+          if (!input || input.tagName !== "SELECT") return;
+          const available = tableService
+            .getTables()
+            .filter((table) => table.status === "Available");
+          input.innerHTML = available.length
+            ? '<option value="">Choose an available table</option>' +
+              available
+                .map(
+                  (table) =>
+                    `<option value="${escapeHTML(table.number)}">Table ${escapeHTML(table.number)} · ${escapeHTML(table.capacity || "")} seats</option>`,
+                )
+                .join("")
+            : '<option value="">No tables set up yet</option>';
+          input.disabled = available.length === 0;
+          const help = document.getElementById("table-help");
+          if (help)
+            help.textContent = available.length
+              ? "Choose a table to continue."
+              : "No tables are free right now. Please ask our staff for help.";
+        };
+        renderTables();
+        document.addEventListener("app:data-updated", renderTables);
+        if (form && input) {
+          form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const customerName = document
+              .getElementById("customer-name")
+              .value.trim();
+            const tableNumber = input.value.trim();
+            localStorage.setItem("arabica_order_mode", "dine-in");
+            localStorage.setItem("arabica_dine_in_name", customerName);
+            localStorage.setItem("arabica_table_number", tableNumber);
+            if (input.tagName === "SELECT" && !tableNumber)
+              return showToast("Choose an available table.", "error");
+            window.location.href = "./menu.html?mode=dine-in";
+          });
+        }
+      });
+    </script>
+  </head>
+  <body data-page="dine-in">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Now</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-shell">
+      <div class="auth-card reveal">
+        <span class="kicker">Dine at Cafflora</span>
+        <h2>Make yourself at home.</h2>
+        <p class="subtle">
+          Tell us your name, choose your table, and we’ll bring up the menu.
+        </p>
+        <form id="table-form" class="form-grid">
+          <div class="form-field">
+            <label for="customer-name">Name</label>
+            <input
+              id="customer-name"
+              class="input"
+              type="text"
+              placeholder="How should we address your order?"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="table-number">Choose your table</label>
+            <select id="table-number" class="select" required>
+              <option value="">Loading available tables…</option>
+            </select>
+            <small id="table-help" class="subtle" role="status"
+              >Loading available tables…</small
+            >
+          </div>
+          <button class="primary-btn" type="submit">Explore the menu</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

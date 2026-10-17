@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owns(uid) { return signedIn() && request.auth.uid == uid; }
+    // An admin is any user whose UID has a document in the "admins" collection.
+    // Those documents can only be created by hand in the Firebase console.
+    function isAdmin() {
+      return signedIn() && (request.auth.uid == 'MHx9d4SOLhci8zY7T18iXlhVoi93'
+        || exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    match /admins/{uid} {
+      allow get: if owns(uid);
+      allow list, create, update, delete: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /websiteContent/{contentId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /tables/{tableId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+        || (signedIn()
+            && resource.data.status == 'Available'
+            && request.resource.data.status == 'Ordering'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']));
+    }
+
+    match /carts/{uid} {
+      allow read, delete: if owns(uid);
+      allow create, update: if owns(uid)
+        && request.resource.data.keys().hasOnly(['items', 'updatedAt'])
+        && request.resource.data.items is list
+        && request.resource.data.items.size() <= 30;
+    }
+
+    match /orders/{orderId} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.customerUid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.customerUid == request.auth.uid
+        && request.resource.data.status == 'New'
+        && request.resource.data.orderType in ['Dine-In', 'Home Delivery']
+        && request.resource.data.items is list
+        && request.resource.data.items.size() > 0
+        && request.resource.data.items.size() <= 30
+        && request.resource.data.total is number
+        && request.resource.data.total >= 0;
+      // Only an admin may move an order to the next status.
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    match /orderStatusTokens/{token} {
+      allow get: if true;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['orderId', 'status', 'updatedAt'])
+        && request.resource.data.status == 'New';
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']);
+      allow list, delete: if false;
+    }
+
+    match /users/{uid} {
+      allow get: if owns(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if owns(uid)
+        && request.resource.data.keys().hasOnly(['uid', 'fullName', 'mobile', 'email', 'savedAddresses', 'createdAt'])
+        && request.resource.data.uid == uid;
+      allow update: if owns(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName', 'mobile', 'savedAddresses']);
+      allow delete: if false;
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}

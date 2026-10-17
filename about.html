@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Get to know Cafflora Coffee: our appreciation for considered coffee, thoughtful preparation and warm hospitality."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body data-page="about">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html" class="active">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Now</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner reveal">
+          <span class="kicker">Our story</span>
+          <h1>A café with care in every detail.</h1>
+        </div>
+      </section>
+
+      <section class="section container">
+        <div class="promo-block reveal">
+          <div
+            class="promo-visual"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=80&quot;);
+            "
+          ></div>
+          <div class="promo-content">
+            <span class="kicker">Our philosophy</span>
+            <h2>We believe a good cup is worth slowing down for.</h2>
+            <p>
+              Cafflora Coffee is shaped by a simple idea: a great café moment
+              should feel considered, welcoming, and entirely your own.
+            </p>
+            <p>
+              From the coffee we serve to the way we welcome you, we focus on
+              quality, thoughtful preparation, and the small details that make
+              time at the café feel special.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container reveal">
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-seedling"></i></div>
+            <h3>Considered quality</h3>
+            <p>
+              We look for flavour, balance, and character in every coffee we choose.
+            </p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-wheat-awn"></i></div>
+            <h3>Made with care</h3>
+            <p>
+              Our café favourites are selected to pair beautifully with a well-made cup.
+            </p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-mug-hot"></i></div>
+            <h3>Craftsmanship</h3>
+            <p>
+              Every drink is prepared with attention to balance, texture, and detail.
+            </p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="icon-box"><i class="fa-solid fa-heart"></i></div>
+            <h3>A warm welcome</h3>
+            <p>
+              Thoughtful service and an inviting atmosphere make it easy to settle in.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Confirm your order details and complete your Cafflora Coffee checkout."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/starter-products.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script src="./js/checkout.js" defer></script>
+  </head>
+  <body data-page="checkout">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Explore the menu</a>
+          <button
+            class="icon-button mobile-toggle"
+            type="button"
+            aria-label="Open menu"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-panel">
+        <nav class="nav-links">
+          <a href="./index.html">Home</a><a href="./menu.html">Menu</a
+          ><a href="./about.html">About</a><a href="./contact.html">Contact</a
+          ><a href="./login.html">Account</a><a href="./cart.html">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner reveal">
+          <span class="kicker">Checkout</span>
+          <h1>One last step to something lovely.</h1>
+        </div>
+      </section>
+
+      <section class="section container">
+        <div class="checkout-grid reveal">
+          <form id="checkout-form" class="form-grid">
+            <div id="dine-in-checkout-info" class="summary-box" hidden>
+              <h3 style="font-size: 2rem; margin-bottom: 18px">Café Order</h3>
+              <p>Name: <strong id="dine-in-customer-name"></strong></p>
+              <p>Table: <strong id="dine-in-table-number"></strong></p>
+              <p class="subtle">
+                You can pay at the café counter when your order is ready.
+              </p>
+            </div>
+            <div id="delivery-fields" class="summary-box">
+              <h3 style="font-size: 2rem; margin-bottom: 18px">
+                Where should we bring your order?
+              </h3>
+              <div class="form-row" style="align-items: center; margin-bottom: 16px;">
+                <p id="saved-address-summary" class="subtle" hidden style="margin: 0;"></p>
+                <button id="change-address-btn" class="ghost-btn" type="button" hidden>Change address</button>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="fullName">Full Name</label>
+                  <input
+                    id="fullName"
+                    class="input delivery-required"
+                    name="fullName"
+                    type="text"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="mobile">Mobile Number</label>
+                  <input
+                    id="mobile"
+                    class="input delivery-required"
+                    name="mobile"
+                    type="tel"
+                    placeholder="Enter your mobile number"
+                  />
+                </div>
+              </div>
+              <div class="form-field" style="margin-top: 18px">
+                <label for="flat">House / Flat / Building</label>
+                <input
+                  id="flat"
+                  class="input delivery-required"
+                  name="flat"
+                  type="text"
+                  placeholder="House, flat or building"
+                />
+              </div>
+              <div class="form-row" style="margin-top: 18px">
+                <div class="form-field">
+                  <label for="street">Street / Area</label>
+                  <input
+                    id="street"
+                    class="input delivery-required"
+                    name="street"
+                    type="text"
+                    placeholder="Street or area"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="city">City</label>
+                  <input
+                    id="city"
+                    class="input delivery-required"
+                    name="city"
+                    type="text"
+                    placeholder="Enter your city"
+                  />
+                </div>
+              </div>
+              <div class="form-row" style="margin-top: 18px">
+                <div class="form-field">
+                  <label for="state">State</label>
+                  <input
+                    id="state"
+                    class="input delivery-required"
+                    name="state"
+                    type="text"
+                    placeholder="Enter your state"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="pin">PIN Code</label>
+                  <input
+                    id="pin"
+                    class="input delivery-required"
+                    name="pin"
+                    type="text"
+                    placeholder="Enter your PIN code"
+                  />
+                </div>
+              </div>
+              <div class="form-field" style="margin-top: 18px">
+                <label for="instructions">Delivery Instructions</label>
+                <textarea
+                  id="instructions"
+                  class="textarea form-note"
+                  name="instructions"
+                  placeholder="Landmark or helpful delivery details"
+                ></textarea>
+              </div>
+            </div>
+
+            <div id="delivery-payment" class="summary-box">
+              <h3 style="font-size: 2rem; margin-bottom: 18px">
+                How would you like to pay?
+              </h3>
+              <div class="payment-methods">
+                <label class="payment-option"
+                  ><span>Cash on delivery</span
+                  ><input
+                    type="radio"
+                    name="payment"
+                    checked
+                    value="Cash on Delivery"
+                /></label>
+                <label class="payment-option"
+                  ><span>UPI (Coming soon)</span
+                  ><input type="radio" name="payment" value="UPI"
+                /></label>
+                <label class="payment-option"
+                  ><span>Credit or debit card (Coming soon)</span
+                  ><input type="radio" name="payment" value="Card"
+                /></label>
+              </div>
+              <div class="form-field" style="margin-top: 18px">
+                <label for="orderNotes">Order Notes</label>
+                <textarea
+                  id="orderNotes"
+                  class="textarea form-note"
+                  name="orderNotes"
+                  placeholder="Add a note for the café"
+                ></textarea>
+              </div>
+            </div>
+            <div class="summary-actions">
+              <button class="primary-btn" id="place-order-btn" type="submit">
+                Confirm your order
+              </button>
+              <a class="secondary-btn" href="./cart.html">Return to your selections</a>
+            </div>
+          </form>
+
+          <aside class="summary-box">
+            <h3 style="font-size: 2rem">Your order summary</h3>
+            <div
+              id="checkout-items"
+              style="margin-top: 18px; display: grid; gap: 12px"
+            ></div>
+            <div class="summary-row">
+              <span>Subtotal</span><strong id="checkout-subtotal">₹0</strong>
+            </div>
+            <div class="summary-row">
+              <span id="checkout-fee-label">Delivery Fee</span
+              ><strong id="checkout-delivery">₹0</strong>
+            </div>
+            <div class="summary-row">
+              <span>Discount</span><strong id="checkout-discount">₹0</strong>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span><strong id="checkout-total">₹0</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="section" style="padding-top: 0">
+      <div
+        class="container"
+        style="border-top: 1px solid var(--line); padding-top: 36px"
+      >
+        <div
+          class="feature-grid"
+          style="
+            grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+            align-items: start;
+          "
+        >
+          <div>
+            <a class="brand" href="./index.html"
+              ><span class="brand-mark"></span
+              ><span class="brand-text"
+                ><strong>Cafflora</strong><small>Coffee</small></span
+              ></a
+            >
+            <p style="margin-top: 18px; max-width: 320px">
+              Thoughtful coffee and welcoming café moments, made to be enjoyed at your own pace.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <p><a href="./menu.html">Menu</a></p>
+            <p><a href="./about.html">About</a></p>
+            <p><a href="./contact.html">Contact</a></p>
+          </div>
+          <div>
+            <h4>Visit</h4>
+            <p>Basmat Road</p>
+            <p>Parbhani, Maharashtra</p>
+            <p>Open daily</p>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <p><a href="tel:+441234567890">1234567890</a></p>
+            <p>
+              <a href="mailto:cafe@caffloracoffee.com"
+                >cafe@caffloracoffee.com</a
+              >
+            </p>
+            <p>@caffloracoffee</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

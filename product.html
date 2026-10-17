@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drinks & Café Favourites | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Discover the details behind Cafflora Coffee’s drinks and café favourites."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/starter-products.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", async () => {
+        await appReady;
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("id");
+        const publishedProducts = menuService.getAllProducts();
+        const isPublished = publishedProducts.some((item) => item.id === productId);
+        const products = publishedProducts.length ? publishedProducts : window.STARTER_PRODUCTS || [];
+        const product =
+          menuService.getProductById(productId) ||
+          products.find((item) => item.id === productId) ||
+          products[0];
+        const isDineIn = localStorage.getItem("arabica_order_mode") === "dine-in";
+        const detail = document.getElementById("product-detail");
+        const safe = (value) => escapeHTML(value);
+        if (!detail) return;
+        if (!product) {
+          detail.innerHTML =
+            '<div class="empty-state"><h3>This menu favourite is unavailable.</h3><p>It may have changed since your last visit. Explore the current menu to find something lovely.</p><a class="primary-btn" href="./menu.html">Explore the menu</a></div>';
+          const retry = () => {
+            if (menuService.getProductById(productId)) {
+              document.removeEventListener("app:data-updated", retry);
+              window.location.reload();
+            }
+          };
+          document.addEventListener("app:data-updated", retry);
+          return;
+        }
+        const recommendations = products
+          .filter((item) => item.id !== product.id)
+          .sort(
+            (a, b) =>
+              Number(b.category === product.category) -
+                Number(a.category === product.category) ||
+              Number(Boolean(b.featured)) - Number(Boolean(a.featured)),
+          )
+          .slice(0, 3);
+
+        detail.innerHTML = `
+          <div class="grid-2 product-layout" style="align-items: start;">
+            <div class="product-detail-card">
+              <div class="product-image-large">
+                <img src="${safe(product.image)}" alt="${safe(product.name)}" loading="eager" />
+              </div>
+            </div>
+            <div class="product-detail-card product-detail-content">
+              <span class="kicker">${safe(product.category)}</span>
+              <h1 style="font-size: clamp(2.5rem, 4vw, 4.5rem); margin-top: 12px;">${safe(product.name)}</h1>
+              <div class="price-row">
+                <span class="big-price">${formatCurrency(product.price)}</span>
+                <span class="badge completed">Vegetarian</span>
+              </div>
+              <p>${safe(product.description)}</p>
+
+              ${isPublished ? `<div>
+                <h4>Size</h4>
+                <div class="option-row">
+                  <button class="option-btn active" type="button">Regular</button>
+                  <button class="option-btn" type="button">Large</button>
+                  <button class="option-btn" type="button">XL</button>
+                </div>
+              </div>
+
+              <div>
+                <h4>Temperature</h4>
+                <div class="option-row">
+                  <button class="option-btn active" type="button">Hot</button>
+                  <button class="option-btn" type="button">Iced</button>
+                </div>
+              </div>
+
+              ` : ''}
+
+              <div class="product-order-actions">
+                <div class="quantity-selector" aria-label="Quantity selector">
+                  <button type="button" data-qty-change="-1">−</button>
+                  <span id="quantity-value">1</span>
+                  <button type="button" data-qty-change="1">+</button>
+                </div>
+                ${isDineIn ? "" : `<button class="secondary-btn" type="button" data-add-to-cart="${safe(product.id)}">Add to bag</button>`}
+                <button class="primary-btn" type="button" data-buy-now="${safe(product.id)}">Order now</button>
+              </div>
+
+              <div class="product-ingredients">
+                <h4>Made with</h4>
+                <p>${(product.ingredients || ["Coffee", "Fresh milk"]).map(safe).join(", ")}</p>
+              </div>
+            </div>
+          </div>
+          <section class="product-recommendations" aria-labelledby="recommendations-title">
+            <div class="section-header">
+              <h2 id="recommendations-title">A few more to love</h2>
+              <a class="secondary-btn" href="./menu.html">Explore the full menu</a>
+            </div>
+            <div class="menu-preview-grid">
+              ${recommendations
+                .map(
+                  (item) => `
+                <article class="product-card">
+                  <a class="product-card-link" href="./product.html?id=${encodeURIComponent(item.id)}">
+                    <div class="image-wrap">
+                      <img src="${safe(item.image)}" alt="${safe(item.name)}" loading="lazy" />
+                      <span class="product-badge">${safe(item.badge || item.category)}</span>
+                    </div>
+                    <div class="meta">
+                      <span class="kicker">${safe(item.category)}</span>
+                      <span class="price">${formatCurrency(item.price)}</span>
+                    </div>
+                    <h4>${safe(item.name)}</h4>
+                    <p class="description">${safe(item.description)}</p>
+                  </a>
+                  <div class="actions">
+                    ${isDineIn ? "" : `<button class="secondary-btn half-btn mini-btn" type="button" data-add-to-cart="${safe(item.id)}">Add to bag</button>`}
+                    <button class="primary-btn half-btn mini-btn" type="button" data-buy-now="${safe(item.id)}">Order now</button>
+                  </div>
+                </article>
+              `,
+                )
+                .join("")}
+            </div>
+          </section>
+        `;
+
+        document.querySelectorAll(".option-btn").forEach((button) => {
+          button.addEventListener("click", () => {
+            button.parentElement
+              .querySelectorAll(".option-btn")
+              .forEach((item) => item.classList.remove("active"));
+            button.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll("[data-qty-change]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const value = Number(
+              document.getElementById("quantity-value").textContent,
+            );
+            const change = Number(button.dataset.qtyChange);
+            const next = Math.max(1, value + change);
+            document.getElementById("quantity-value").textContent =
+              String(next);
+          });
+        });
+        document.addEventListener("app:data-updated", () => {
+          const latest = menuService.getProductById(productId);
+          if (!latest) return;
+          const content = detail.querySelector(".product-detail-content");
+          const image = detail.querySelector(".product-image-large img");
+          if (content) {
+            content.querySelector(".kicker").textContent =
+              latest.category || "";
+            content.querySelector("h1").textContent = latest.name || "";
+            content.querySelector(".big-price").textContent = formatCurrency(
+              latest.price,
+            );
+            content.querySelector("p").textContent = latest.description || "";
+            const ingredients = content.querySelector(".product-ingredients p");
+            if (ingredients)
+              ingredients.textContent = (latest.ingredients || []).join(", ");
+            const addButton = content.querySelector("[data-add-to-cart]");
+            const buyButton = content.querySelector("[data-buy-now]");
+            if (addButton) addButton.disabled = latest.available === false;
+            if (buyButton) buyButton.disabled = latest.available === false;
+          }
+          if (image) {
+            image.src = latest.image || "";
+            image.alt = latest.name || "";
+          }
+        });
+      });
+    </script>
+  </head>
+  <body data-page="product">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html"
+          ><span class="brand-mark"></span
+          ><span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html" class="active">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./menu.html">Order Now</a>
+          <button
+            class="icon-button mobile-toggle"
+            type="button"
+            aria-label="Open menu"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-panel">
+        <nav class="nav-links">
+          <a href="./index.html">Home</a
+          ><a href="./menu.html" class="active">Menu</a
+          ><a href="./about.html">About</a><a href="./contact.html">Contact</a
+          ><a href="./login.html">Account</a><a href="./cart.html">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section container product-page-section">
+        <div id="product-detail"></div>
+      </section>
+    </main>
+
+    <footer class="section" style="padding-top: 0">
+      <div
+        class="container"
+        style="border-top: 1px solid var(--line); padding-top: 36px"
+      >
+        <div
+          class="feature-grid"
+          style="
+            grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+            align-items: start;
+          "
+        >
+          <div>
+            <a class="brand" href="./index.html"
+              ><span class="brand-mark"></span
+              ><span class="brand-text"
+                ><strong>Cafflora</strong><small>Coffee</small></span
+              ></a
+            >
+            <p style="margin-top: 18px; max-width: 320px">
+              Thoughtful coffee and welcoming café moments, made to be enjoyed at your own pace.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <p><a href="./menu.html">Menu</a></p>
+            <p><a href="./about.html">About</a></p>
+            <p><a href="./contact.html">Contact</a></p>
+          </div>
+          <div>
+            <h4>Visit</h4>
+            <p>Basmat Road</p>
+            <p>Parbhani, Maharashtra</p>
+            <p>Open daily</p>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <p><a href="tel:+441234567890">1234567890</a></p>
+            <p>
+              <a href="mailto:cafe@caffloracoffee.com"
+                >cafe@caffloracoffee.com</a
+              >
+            </p>
+            <p>@caffloracoffee</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

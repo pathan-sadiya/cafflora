@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu | Cafflora Coffee</title>
+    <meta
+      name="description"
+      content="Explore Cafflora Coffee’s menu of carefully prepared drinks, pastries, desserts and café favourites."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check-compat.js"
+      defer
+    ></script>
+    <script src="./js/firebase-config.js" defer></script>
+    <script src="./js/starter-products.js" defer></script>
+    <script src="./js/app.js" defer></script>
+    <script src="./js/menu.js" defer></script>
+  </head>
+  <body data-page="menu">
+    <div class="topbar">
+      <div class="container topbar-inner">
+        Thoughtfully brewed • Made for the moment • Always welcoming
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark"></span>
+          <span class="brand-text"
+            ><strong>Cafflora</strong><small>Coffee</small></span
+          >
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="./index.html">Home</a>
+          <a href="./menu.html" class="active">Menu</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-button" type="button" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <a class="ghost-btn" href="./login.html" data-account-link>Account</a>
+          <a class="icon-button" href="./cart.html" aria-label="Cart"
+            ><i class="fa-solid fa-bag-shopping"></i
+            ><span class="cart-badge" hidden>0</span></a
+          >
+          <a class="primary-btn" href="./dine-in.html">Order Now</a>
+          <button
+            class="icon-button mobile-toggle"
+            type="button"
+            aria-label="Open menu"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-panel">
+        <nav class="nav-links">
+          <a href="./index.html">Home</a
+          ><a href="./menu.html" class="active">Menu</a
+          ><a href="./about.html">About</a><a href="./contact.html">Contact</a
+          ><a href="./login.html">Account</a><a href="./cart.html">Cart</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner reveal">
+          <span class="kicker">Menu</span>
+          <h1>Something lovely is brewing.</h1>
+        </div>
+      </section>
+
+      <section class="section container">
+        <div class="order-mode-bar">
+          <span>How would you like to enjoy it?</span>
+          <div class="order-mode-switch" role="group" aria-label="Order destination" data-order-mode-switch>
+            <button type="button" data-order-mode="delivery">Delivery</button>
+            <button type="button" data-order-mode="dine-in">Dine in</button>
+          </div>
+        </div>
+        <div class="filter-bar reveal">
+          <div class="filter-group" aria-label="Product categories"></div>
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              align-items: center;
+              min-width: 280px;
+            "
+          >
+            <input
+              id="menu-search"
+              class="search-box"
+              type="search"
+              placeholder="Search coffee, drinks and more"
+              aria-label="Search menu items"
+            />
+          </div>
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              color: var(--muted);
+            "
+          >
+            <span>Arrange by</span>
+            <select id="sort-select" class="select" aria-label="Sort menu">
+              <option value="featured">Featured</option>
+              <option value="low-high">Price: Low to High</option>
+              <option value="high-low">Price: High to Low</option>
+              <option value="name">Name</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="product-grid" class="menu-preview-grid"></div>
+      </section>
+    </main>
+
+    <footer class="section" style="padding-top: 0">
+      <div
+        class="container"
+        style="border-top: 1px solid var(--line); padding-top: 36px"
+      >
+        <div
+          class="feature-grid"
+          style="
+            grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr;
+            align-items: start;
+          "
+        >
+          <div>
+            <a class="brand" href="./index.html"
+              ><span class="brand-mark"></span
+              ><span class="brand-text"
+                ><strong>Cafflora</strong><small>Coffee</small></span
+              ></a
+            >
+            <p style="margin-top: 18px; max-width: 320px">
+              Thoughtful coffee and welcoming café moments, made to be enjoyed at your own pace.
+            </p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <p><a href="./menu.html">Menu</a></p>
+            <p><a href="./about.html">About</a></p>
+            <p><a href="./contact.html">Contact</a></p>
+          </div>
+          <div>
+            <h4>Visit</h4>
+            <p>Basmat Road</p>
+            <p>Parbhani, Maharashtra</p>
+            <p>Open daily</p>
+          </div>
+          <div>
+            <h4>Connect</h4>
+            <p><a href="tel:+441234567890">1234567890</a></p>
+            <p>
+              <a href="mailto:cafe@caffloracoffee.com"
+                >cafe@caffloracoffee.com</a
+              >
+            </p>
+            <p>@caffloracoffee</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
